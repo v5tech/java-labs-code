@@ -22,28 +22,15 @@ import java.security.SecureRandom;
 
 /**
  * Google Authenticator 验证工具类
- *
- * 需添加如下依赖：
- *
- * <dependency>
- *     <groupId>de.taimos</groupId>
- *     <artifactId>totp</artifactId>
- *     <version>1.0</version>
- * </dependency>
- * <dependency>
- *     <groupId>commons-codec</groupId>
- *     <artifactId>commons-codec</artifactId>
- *     <version>1.17.0</version>
- * </dependency>
- * <dependency>
- *     <groupId>com.google.zxing</groupId>
- *     <artifactId>javase</artifactId>
- *     <version>3.5.3</version>
- * </dependency>
- *
  */
 public class GoogleAuthenticationTool {
 
+
+    public static final int WIDTH = 128;
+    public static final int HEIGHT = 128;
+    public static final String ACCOUNT = "sfeng";
+    public static final String ISSUER = "SmartOps 多云管理平台";
+    public static final String FORMAT = "https://api.qrserver.com/v1/create-qr-code/?size=%sx%s&data=%s&ecc=M&margin=10";
 
     /**
      * 生成32位随机码
@@ -134,8 +121,7 @@ public class GoogleAuthenticationTool {
      * @return
      */
     public static String createQRCodeURL(String barCode, int width, int height) {
-        String format = "https://api.qrserver.com/v1/create-qr-code/?size=%sx%s&data=%s&ecc=M&margin=10";
-        return String.format(format, width, height, barCode);
+        return String.format(FORMAT, width, height, barCode);
     }
 
     /**
@@ -151,13 +137,12 @@ public class GoogleAuthenticationTool {
 
     public static void main(String[] args) throws Exception {
         String secretKey = generateSecretKey();
-        secretKey = "2CISOHK2JFQFIKYSCFSBTK2C7B3OUBCZ";
         System.out.println("secretKey = " + secretKey);
         System.out.println("getTOTPCode = " + getTOTPCode(secretKey));
-        String authenticatorBarCode = getGoogleAuthenticatorBarCode(secretKey, "sfeng", "SmartOps多云管理平台");
+        String authenticatorBarCode = getGoogleAuthenticatorBarCode(secretKey, ACCOUNT, ISSUER);
         System.out.println("authenticatorBarCode = " + authenticatorBarCode);
-        System.out.println("createQRCodeURL = " + createQRCodeURL(authenticatorBarCode, 180, 180));
-        createQRCode(authenticatorBarCode, "qr.png", 180, 180);
+        System.out.println("createQRCodeURL = " + createQRCodeURL(authenticatorBarCode, WIDTH, HEIGHT));
+        createQRCode(authenticatorBarCode, "qr.png", WIDTH, HEIGHT);
         System.out.println("validateCode = " + validateCode(secretKey, "742807"));
     }
 }
