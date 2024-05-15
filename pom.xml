@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.v5tech</groupId>
-    <artifactId>java-labs</artifactId>
+    <artifactId>java-labs-code</artifactId>
     <version>1.0</version>
 
     <properties>
